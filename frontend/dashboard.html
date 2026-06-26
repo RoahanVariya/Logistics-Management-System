@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logistics Management System</title>
+  <meta name="description" content="Enterprise Logistics Management System — manage truck entries, material movement, and generate reports." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay"></div>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- App Layout -->
+  <div class="app-layout">
+
+    <!-- ── Sidebar ─────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="#ffffff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+        </div>
+        <div class="brand-text">
+          <h2>LogisticsPro</h2>
+          <span>Management System</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Main Menu</div>
+
+        <button class="nav-item active" data-page="dashboard" id="nav-dashboard">
+          <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+          <span class="nav-label">Dashboard</span>
+        </button>
+
+        <button class="nav-item" data-page="entry" id="nav-entry">
+          <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+          <span class="nav-label">Truck Entry</span>
+        </button>
+
+        <button class="nav-item" data-page="history" id="nav-history">
+          <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+          <span class="nav-label">Entry History</span>
+        </button>
+
+        <div class="nav-section-label" id="nav-section-analytics">Analytics</div>
+
+        <button class="nav-item" data-page="reports" id="nav-reports">
+          <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          <span class="nav-label">Reports</span>
+        </button>
+
+        <button class="nav-item" data-page="export" id="nav-export">
+          <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          <span class="nav-label">Export Data</span>
+        </button>
+
+        <div class="nav-section-label">Account</div>
+
+        <button class="nav-item" id="nav-logout" style="color: rgba(239,68,68,0.8); font-weight: 700;">
+          <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <span class="nav-label">Logout</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-user">
+        <div class="user-avatar" id="user-avatar">A</div>
+        <div class="user-info">
+          <div class="user-name" id="user-name">Admin</div>
+          <div class="user-role" id="user-role">Administrator</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ── Main Content ────────────────────────────────────── -->
+    <div class="main-content">
+
+      <!-- Top Header -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle menu">&#9776;</button>
+          <div class="page-breadcrumb">
+            <span class="breadcrumb-item">LogisticsPro</span>
+            <span class="breadcrumb-sep">›</span>
+            <span class="breadcrumb-item current" id="page-title">Dashboard</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="header-badge">
+            <span class="dot"></span>
+            <span id="header-datetime"></span>
+          </div>
+          <span class="badge badge-admin" id="role-badge">Admin</span>
+        </div>
+      </header>
+
+      <!-- Dynamic Page Content -->
+      <main class="page-content" id="page-content">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Loading...</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Sidebar Toggle (desktop) -->
+  <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">◀</button>
+
+  <!-- ── Scripts ─────────────────────────────────────────────── -->
+  <script src="/js/api.js"></script>
+  <script src="/js/components/notifications.js"></script>
+  <script src="/js/pages/dashboard.js"></script>
+  <script src="/js/pages/entry.js"></script>
+  <script src="/js/pages/history.js"></script>
+  <script src="/js/pages/reports.js"></script>
+  <script src="/js/pages/export.js"></script>
+  <script src="/js/components/sidebar.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
